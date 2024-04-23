@@ -142,9 +142,7 @@ yacl_cc_library(
     defines = select({
         "@platforms//cpu:aarch64": [
         ],
-        "//conditions:default": [
-            "YACL_ENABLE_BMI2",
-        ],
+        "//conditions:default": [],
     }),
     deps = [
         "//yacl/base:block",

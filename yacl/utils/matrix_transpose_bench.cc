@@ -114,8 +114,7 @@ static void BM_SseTrans1024(benchmark::State& state) {
   }
 }
 
-#ifdef YACL_ENABLE_BMI2
-static void BM_AvxTrans(benchmark::State& state) {
+static void BM_DefaultTrans(benchmark::State& state) {
   // AVX need to be aligned to 32 bytes.
   alignas(32) std::array<uint128_t, 128> matrix;
   GenerateRandomMatrix(&matrix);
@@ -124,11 +123,10 @@ static void BM_AvxTrans(benchmark::State& state) {
     size_t n = state.range(0);
     state.ResumeTiming();
     for (size_t i = 0; i < n; i++) {
-      yacl::AvxTranspose128(&matrix);
+      yacl::MatrixTranspose128(&matrix);
     }
   }
 }
-#endif
 
 BENCHMARK(BM_NaiveTrans)
     ->Unit(benchmark::kMillisecond)
@@ -177,8 +175,7 @@ BENCHMARK(BM_SseTrans1024)
     ->Arg(10240)
     ->Arg(1 << 21);
 
-#ifdef YACL_ENABLE_BMI2
-BENCHMARK(BM_AvxTrans)
+BENCHMARK(BM_DefaultTrans)
     ->Unit(benchmark::kMillisecond)
     ->Arg(1024)
     ->Arg(5120)
@@ -187,4 +184,3 @@ BENCHMARK(BM_AvxTrans)
     ->Arg(40960)
     ->Arg(81920)
     ->Arg(1 << 24);
-#endif

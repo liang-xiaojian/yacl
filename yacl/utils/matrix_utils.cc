@@ -19,14 +19,11 @@
 #include <string>
 #include <type_traits>
 
-#ifdef YACL_ENABLE_BMI2
-#include "immintrin.h"
-#endif
-
 #include "yacl/base/block.h"
 
 #ifdef __x86_64
 #include "cpu_features/cpuinfo_x86.h"
+#include "immintrin.h"
 #endif
 
 namespace yacl {
@@ -35,8 +32,10 @@ namespace {
 
 #ifdef __x86_64
 static const auto kCPUSupportsSSE2 = cpu_features::GetX86Info().features.sse2;
+static const auto kCPUSupportsAVX2 = cpu_features::GetX86Info().features.avx2;
 #else
 static const auto kCPUSupportsSSE2 = true;
+static const auto kCPUSupportsAVX2 = false;
 #endif
 
 /**
@@ -341,9 +340,9 @@ void SseTranspose128x1024(std::array<std::array<uint128_t, 8>, 128>* inout) {
 }
 
 void MatrixTranspose128(std::array<uint128_t, 128>* inout) {
-#ifdef YACL_ENABLE_BMI2
-  return AvxTranspose128(inout);
-#endif
+  if (kCPUSupportsAVX2) {
+    return AvxTranspose128(inout);
+  }
   if (kCPUSupportsSSE2) {
     return SseTranspose128(inout);
   }
@@ -359,7 +358,7 @@ void MatrixTranspose128x1024(std::array<std::array<block, 8>, 128>& inout) {
   return EklundhTranspose128x1024(inout);
 }
 
-#ifdef YACL_ENABLE_BMI2
+#ifdef __x86_64
 // avx_* function from
 // https://github.com/osu-crypto/libOTe/blob/master/libOTe/Tools/Tools.cpp
 // libOTe License:
