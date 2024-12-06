@@ -217,6 +217,8 @@ class MPInt {
   MPInt Pow(uint32_t b) const;
   void PowInplace(uint32_t b);
 
+  static void SqrtModPrime(const MPInt &in, const MPInt &mod, MPInt *d);
+
   static void PowMod(const MPInt &a, const MPInt &b, const MPInt &mod,
                      MPInt *d);
   MPInt PowMod(const MPInt &b, const MPInt &mod) const;

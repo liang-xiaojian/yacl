@@ -532,6 +532,10 @@ MPInt MPInt::PowMod(const MPInt &b, const MPInt &mod) const {
   return res;
 }
 
+void MPInt::SqrtModPrime(const MPInt &in, const MPInt &mod, MPInt *d) {
+  MPINT_ENFORCE_OK(mp_sqrtmod_prime(&in.n_, &mod.n_, &d->n_));
+}
+
 void MPInt::PowMod(const MPInt &a, const MPInt &b, const MPInt &mod, MPInt *d) {
   MPINT_ENFORCE_OK(mp_exptmod(&a.n_, &b.n_, &mod.n_, &d->n_));
 }
