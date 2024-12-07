@@ -1,4 +1,4 @@
-# Copyright 2023 Ant Group Co., Ltd.
+# Copyright 2024 Ant Group Co., Ltd.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -12,17 +12,31 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-load("//bazel:yacl.bzl", "yacl_cc_binary")
+load("//bazel:yacl.bzl", "yacl_cc_library", "yacl_cc_test")
 
 package(default_visibility = ["//visibility:public"])
 
-yacl_cc_binary(
-    name = "benchmark",
-    srcs = ["bench_ecc.cc"],
+yacl_cc_library(
+    name = "FourQlib",
+    srcs = ["FourQ_factory.cc"],
+    deps = ["FourQ_group"],
+    alwayslink = 1,
+)
+
+yacl_cc_library(
+    name = "FourQ_group",
+    srcs = ["FourQ_group.cc"],
+    hdrs = ["FourQ_group.h"],
     deps = [
-        "//yacl/crypto/base/ecc",
-        "@com_github_gflags_gflags//:gflags",
-        "@com_github_google_benchmark//:benchmark",
-        "@com_google_absl//absl/strings",
+        "//yacl/crypto/base/ecc:spi",
+        "@com_github_microsoft_FourQlib//:FourQlib",
+    ],
+)
+
+yacl_cc_test(
+    name = "FourQ_test",
+    srcs = ["FourQ_test.cc"],
+    deps = [
+        ":FourQlib",
     ],
 )

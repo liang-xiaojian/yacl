@@ -1,4 +1,4 @@
-// Copyright 2023 Ant Group Co., Ltd.
+// Copyright 2024 Ant Group Co., Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -14,15 +14,10 @@
 
 #pragma once
 
-#include "mcl/gmp_util.hpp"
-
-#include "yacl/math/mpint/mp_int.h"
-
-namespace yacl::crypto {
-
-using yacl::math::MPInt;
-
-MPInt Mpz2Mp(const mpz_class& m);
-
-mpz_class Mp2Mpz(const MPInt& mpi);
-}  // namespace yacl::crypto
+extern "C" {
+#include "crypto_multiscalar/ed25519/amd64-maax-p3/ge25519_unpack.h"
+#include "crypto_nG/merged25519/amd64-maax/ge25519.h"
+#include "include-build/ge25519_is_on_curve.h"
+#include "include-build/ge25519_scalarmult.h"
+#include "include-build/ge25519_sub.h"
+};

@@ -92,7 +92,7 @@ class MclGroupT : public EcGroupSketch {
 
  private:
   explicit MclGroupT(const CurveMeta& meta, int mcl_curve_type,
-                     const EcPoint& generator);
+                     const EcPoint& generator, bool const_time_mul = false);
 
   // For standard hash to curve
   EcPoint HashToStdCurve(HashToCurveStrategy strategy,

@@ -19,6 +19,8 @@ package(default_visibility = ["//visibility:public"])
 yacl_cc_library(
     name = "ecc",
     deps = [
+        "//yacl/crypto/base/ecc/FourQlib",
+        "//yacl/crypto/base/ecc/lib25519",
         "//yacl/crypto/base/ecc/libsodium",
         "//yacl/crypto/base/ecc/mcl:ecc",
         "//yacl/crypto/base/ecc/openssl",

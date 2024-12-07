@@ -316,7 +316,7 @@ class EcGroupFactory final : public SpiFactoryBase<EcGroup> {
 };
 
 // Please run bazel run
-//   > yacl/crypto/base/ecc/benchmark -c opt -- --curve CURVE_NAME
+//   > yacl/crypto/ecc/benchmark -c opt -- --curve CURVE_NAME
 // to test your lib's performance.
 // We assume that the performance of OpenSSL is 100, if your library is better
 // than OpenSSL, please increase the 'performance' value.
